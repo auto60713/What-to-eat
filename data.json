@@ -1,0 +1,7 @@
+[{"name":"九湯屋","city":"台中","address":"逢甲夜市","tag":"麵","price":100,"type":"正餐"},
+{"name":"大丁拉麵","city":"台中","address":"逢甲夜市","tag":"拉麵","price":70,"type":"正餐"},
+{"name":"nagi-凪豚骨拉麵","city":"台中","address":"老虎城","tag":"拉麵","price":200,"type":"正餐"},
+{"name":"香辣紹子麵","city":"台中","address":"","tag":"麵","price":50,"type":"正餐"},
+{"name":"八方雲集","city":"台中","address":"","tag":"其他","price":70,"type":"正餐"},
+{"name":"金太郎","city":"台南","address":"","tag":"飯","price":60,"type":"正餐"},
+{"name":"測試","city":"全台","address":"","tag":"飯, 麵","price":88,"type":"點心,下午茶"}]

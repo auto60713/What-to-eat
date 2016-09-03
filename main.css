@@ -1,0 +1,76 @@
+body,html{
+	margin: 0px;
+}
+table,th,td {
+   border: 1px solid black;
+   font-family:Microsoft JhengHei;
+}
+td{
+	padding-right: 20px;
+}
+input{
+	margin: 0 5px;
+	padding-bottom: 4px; 
+}
+button{
+    background-color: #555555;
+    border: 1px solid #6A6A6A;
+    color: white;
+    padding-bottom: 2px;
+    font-family:Microsoft JhengHei;
+}
+#title{
+	margin-top: 6%; 
+	margin-left: 10%; 
+}
+.title_text{
+	font-family:Microsoft JhengHei;
+	font-size: 120px;
+	font-weight: bold;
+}
+.title_city{
+    border: 0px;
+    background: url(images/sel.png) no-repeat right bottom;
+ -webkit-appearance:none;
+    -moz-appearance:none;
+         appearance:none;
+	font-family:Microsoft JhengHei;
+	font-size: 120px;
+	font-weight: bold;
+	width: 260px;
+}
+#introduction{
+	margin-left: 11%; 
+	color: #555555;
+	font-family:Microsoft JhengHei;
+	font-size: 14px;
+}
+
+#menu{
+    margin-top: 30px;
+	margin-left: 11%; 
+	margin-bottom: 50px;
+
+	min-height: 35px;
+}
+
+.search_bar{
+	margin-left: 11%; 
+    margin-bottom: 8px;
+    font-family:Microsoft JhengHei;
+}
+
+
+
+
+
+#footer{
+	border-top: 1px solid #6A6A6A;
+    width: 78%;
+    margin: 80px 0 100px 11%; /* 上右下左 */
+    padding-top: 10px;
+
+    color: #555555;
+	font-family:Microsoft JhengHei;
+	font-size: 14px;
+}

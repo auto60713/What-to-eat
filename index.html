@@ -1,0 +1,149 @@
+<html>
+<head>
+	<title>晚餐吃什麼</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<script type="text/javascript" src="jquery-3.1.0.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="main.css">
+</head>
+<body>
+
+<div id="title">
+  <select name="city" class="title_city">
+　  <option value="Taichung">台中</option>
+  　<option value="Tainan">台南</option>
+  </select>
+  <span class="title_text">晚餐吃什麼</span>
+</div>
+
+<pre id="introduction">
+當你不知道你晚餐要吃什麼的時候 可以上來找靈感
+<a href="https://docs.google.com/spreadsheets/d/1vDvxwB3Es1_ODCzNoXqfG6UDgMWzQAZ5HWCMn8S4yzE" target="_blank">全部店家</a>
+<!-- 資料轉換 https://shancarter.github.io/mr-data-converter/-->
+</pre>
+
+
+<div id="menu">
+<table>
+  <!-- tr><th>店名</th><th>縣市</th><th>地址</th><th>標籤</th><th>價格</th><th>類型</th></tr>
+  <tr class="tr_inf">  </tr -->
+</table> 
+</div>
+
+<div class="search_bar">
+  <!-- button onclick="all_show()">顯示全部</button-->  <button onclick="random_show()">隨機出現</button> 
+</div>
+<div class="search_bar">
+ <span>標籤 </span><input type="text" name="tag_selector_text"><button onclick="tag_selector()">搜尋標籤</button> 
+</div>
+<div class="search_bar">
+ <span>價格 </span><input type="number" name="price_limit_1">到<input type="number" name="price_limit_2">之間
+ <button onclick="price_limit()">搜尋價格</button> 
+</div>
+
+
+
+
+
+<div id="footer">
+想要新增店家請到 <a href="https://goo.gl/forms/VFCcvXN5wdzCoJUa2" target="_blank">Google問卷</a>
+</div>
+
+
+
+
+
+
+
+</body>
+
+
+<script type="text/javascript">
+
+
+$.getJSON("data.json", function(json) { //載入json的餐廳資料
+
+  $.each( json, function( key, val ) {
+
+  if(val.address == null || val.address.trim() == "") val.address = "(沒有地址)";
+    var store_name = $('<td>').text(val.name),
+        store_address = $('<td>').text(val.address),
+        store_tag = $('<td>').text(val.tag),
+        store_price = $('<td>').addClass('store_price').text("大約 "+val.price+" 元"),
+        store_data = $('<tr>').addClass('tr_inf').append(store_name,store_address,store_tag,store_price).hide();
+
+        $("#menu table").append( store_data );
+  });
+
+});
+
+
+
+
+function random_show() {
+
+$( "tr.tr_inf" ).hide();
+
+var item_length = $( "tr.tr_inf" ).length,
+    rd_n = 1, //隨機數量
+    rd_array = [],
+    rd_val = 0;
+ 
+  for(var i=0; i<rd_n; i++) {
+
+    do {
+      var exist = false;      //此亂數是否已存在
+      rd_val = Math.floor( Math.random() * item_length ); //0~item_length
+
+      //檢查亂數是否存在於陣列中，若存在則繼續回圈
+      if(rd_array.indexOf(rd_val) != -1) exist = true;
+ 
+    } while (exist);
+ 
+    rd_array[i] = rd_val; //生成不重複隨機陣列
+  }
+
+  for(var i=0; i<rd_array.length; i++) {
+      $( "tr.tr_inf:eq( "+rd_array[i]+" )" ).show(600);
+  }
+
+}
+
+
+function all_show() {
+   $( "tr.tr_inf" ).show();
+}
+
+function tag_selector() {
+   $( "tr.tr_inf" ).hide();
+   var tag_selector_text = $( "input[name='tag_selector_text']" ).val();
+   $( "tr.tr_inf:contains('"+tag_selector_text.trim()+"')" ).show(600);
+}
+
+
+function price_limit() {
+
+var price_limit_1 = $( "input[name='price_limit_1']" ).val(),
+    price_limit_2 = $( "input[name='price_limit_2']" ).val();
+
+   $( "tr.tr_inf" ).hide();
+
+   $('.store_price').each(function() {
+   item_price = parseInt($(this).text());
+
+       if( item_price >= price_limit_1 && item_price <= price_limit_2){
+
+           $(this).parent().show(600);
+       }
+   });
+}
+
+
+
+jQuery(document).ready(function($) {
+    random_show();
+});
+
+
+
+</script>
+</html>
