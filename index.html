@@ -1,6 +1,6 @@
 <html>
 <head>
-	<title>晚餐吃什麼</title>
+	<title>吃什麼</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<script type="text/javascript" src="jquery-3.1.0.min.js"></script>
   <link rel="stylesheet" type="text/css" href="main.css">
@@ -12,11 +12,11 @@
 　  <option value="Taichung">台中</option>
   　<option value="Tainan">台南</option>
   </select>
-  <span class="title_text">晚餐吃什麼</span>
+  <span class="title_text">吃什麼</span>
 </div>
 
 <pre id="introduction">
-當你不知道你晚餐要吃什麼的時候 可以上來找靈感
+當你不知道你要吃什麼的時候 可以上來找靈感
 <a href="https://docs.google.com/spreadsheets/d/1vDvxwB3Es1_ODCzNoXqfG6UDgMWzQAZ5HWCMn8S4yzE" target="_blank">全部店家</a>
 <!-- 資料轉換 https://shancarter.github.io/mr-data-converter/-->
 </pre>
@@ -30,18 +30,16 @@
 </div>
 
 <div class="search_bar">
-  <!-- button onclick="all_show()">顯示全部</button-->  <button onclick="random_show()">隨機出現</button> 
-</div>
-<div class="search_bar">
- <span>標籤 </span><input type="text" name="tag_selector_text"><button onclick="tag_selector()">搜尋標籤</button> 
-</div>
-<div class="search_bar">
- <span>價格 </span><input type="number" name="price_limit_1">到<input type="number" name="price_limit_2">之間
- <button onclick="price_limit()">搜尋價格</button> 
-</div>
 
-
-
+  <!-- button onclick="all_show()">顯示全部</button>  
+  <button onclick="random_show()">隨機出現</button--> 
+</div>
+<div class="search_bar"> 
+  <button onclick="selector()">條件搜尋</button> 
+  <span>地區 <input type="text" name="search_area"> </span>
+  <span>標籤 <input type="text" name="search_tag"> </span>
+  <span>價格 <input type="text" name="search_price1">到<input type="text" name="search_price2">之間 </span>
+</div>
 
 
 <div id="footer">
@@ -64,12 +62,12 @@ $.getJSON("data.json", function(json) { //載入json的餐廳資料
 
   $.each( json, function( key, val ) {
 
-  if(val.address == null || val.address.trim() == "") val.address = "(沒有地址)";
-    var store_name = $('<td>').text(val.name),
-        store_address = $('<td>').text(val.address),
-        store_tag = $('<td>').text(val.tag),
-        store_price = $('<td>').addClass('store_price').text("大約 "+val.price+" 元"),
-        store_data = $('<tr>').addClass('tr_inf').append(store_name,store_address,store_tag,store_price).hide();
+  if(val.area == null || val.area.trim() == "") val.area = "--";
+    var store_name = $('<td>').addClass('store_name').text(val.name),
+        store_area = $('<td>').addClass('store_area').text(val.area),
+        store_tag = $('<td>').addClass('store_tag').text(val.tag),
+        store_price = $('<td>').addClass('store_price').text("大約 "+val.price+" 元").attr( "val",val.price ),
+        store_data = $('<tr>').addClass('tr_inf').append(store_name,store_area,store_tag,store_price).hide();
 
         $("#menu table").append( store_data );
   });
@@ -77,7 +75,9 @@ $.getJSON("data.json", function(json) { //載入json的餐廳資料
 });
 
 
-
+function all_show() {
+$( "tr.tr_inf" ).show();
+}
 
 function random_show() {
 
@@ -109,32 +109,35 @@ var item_length = $( "tr.tr_inf" ).length,
 }
 
 
-function all_show() {
-   $( "tr.tr_inf" ).show();
-}
-
-function tag_selector() {
-   $( "tr.tr_inf" ).hide();
-   var tag_selector_text = $( "input[name='tag_selector_text']" ).val();
-   $( "tr.tr_inf:contains('"+tag_selector_text.trim()+"')" ).show(600);
-}
 
 
-function price_limit() {
+function selector() {
 
-var price_limit_1 = $( "input[name='price_limit_1']" ).val(),
-    price_limit_2 = $( "input[name='price_limit_2']" ).val();
+var search_area = $( "input[name='search_area']" ).val(),
+    search_tag = $( "input[name='search_tag']" ).val(),
+    search_price1 = $( "input[name='search_price1']" ).val(),
+    search_price2 = $( "input[name='search_price2']" ).val();
 
-   $( "tr.tr_inf" ).hide();
+    if( search_price2.trim() == "" ) search_price2 = 99999;
 
-   $('.store_price').each(function() {
-   item_price = parseInt($(this).text());
+  $( "tr.tr_inf" ).hide();
 
-       if( item_price >= price_limit_1 && item_price <= price_limit_2){
+  $( "tr.tr_inf" ).each(function() {
 
-           $(this).parent().show(600);
-       }
-   });
+  var this_area = $(this).find( ".store_area" ).text();
+  if( this_area.indexOf(search_area) != -1){   //找地區
+
+      var this_tag = $(this).find( ".store_tag" ).text();
+      if( this_tag.indexOf(search_tag) != -1){   //找tag
+
+          var this_price = parseInt($(this).find( ".store_price" ).attr("val"));
+          if( this_price >= search_price1 && this_price <= search_price2){    //找價格
+
+              $(this).show(600);
+          }
+      }
+  }
+  });
 }
 
 

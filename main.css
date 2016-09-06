@@ -9,10 +9,12 @@ td{
 	padding-right: 20px;
 }
 input{
-	margin: 0 5px;
+	margin: 0 3px;
 	padding-bottom: 4px; 
+	width: 100px;
 }
 button{
+    margin-right: 10px;
     background-color: #555555;
     border: 1px solid #6A6A6A;
     color: white;
@@ -58,6 +60,9 @@ button{
 	margin-left: 11%; 
     margin-bottom: 8px;
     font-family:Microsoft JhengHei;
+}
+.search_bar span{
+    margin-right: 10px;
 }
 
 
